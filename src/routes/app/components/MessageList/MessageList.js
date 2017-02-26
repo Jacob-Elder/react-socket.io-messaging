@@ -1,5 +1,6 @@
 import React from 'react'
 import './MessageList.scss'
+import Message from '../Message/Message.js'
 
 class MessageList extends React.Component{
 	render () {
