@@ -5,6 +5,7 @@ const webpack = require('webpack')
 const webpackConfig = require('../config/webpack.config')
 const project = require('../config/project.config')
 const compress = require('compression')
+const port = 3000
 
 const app = express()
 
@@ -65,5 +66,16 @@ if (project.env === 'development') {
   // server in production.
   app.use(express.static(project.paths.dist()))
 }
+
+// const io = require('socket.io')(app);
+
+// io.on('connection', (socket) => {  
+//   console.log('a user connected');
+
+//   socket.on('disconnect', () => {
+//     console.log('user disconnected');
+//   });
+// })
+
 
 module.exports = app
