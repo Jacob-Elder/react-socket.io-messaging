@@ -7,8 +7,10 @@ var io = require('socket.io')(http);
 
 io.on('connection', function(socket){
 	//alert client a user has joined
-	console.log('user joined');
-	socket.emit('user:join')
+	socket.on('user:join', function(name){
+		console.log(name + ' joined')
+		io.emit('user:join', name)
+	})
 
 	socket.on('send:message', function(message){
 		console.log('message sent!')

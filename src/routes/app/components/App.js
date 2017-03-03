@@ -3,7 +3,7 @@ import './App.scss'
 import UsersList from './UsersList/UsersList.js'
 import MessageList from './MessageList/MessageList.js'
 import MessageForm from './MessageForm/MessageForm.js'
-import ChangeNameForm from './ChangeNameForm/ChangeNameForm.js'
+import PickUsername from './PickUsername/PickUsername.js'
 import io from 'socket.io-client'
 const socket = io.connect('10.0.1.3:3000')
 
@@ -12,6 +12,8 @@ class App extends React.Component {
 	constructor (props) {
 		super(props)
 		this.state = {
+			username: '',
+			signedIn: false,
 			users: [],
 			messages: [],
 			text: ''
@@ -21,12 +23,21 @@ class App extends React.Component {
 		this._userJoined = this._userJoined.bind(this)
 		this._userLeft = this._userLeft.bind(this)
 		this.handleMessageSubmit = this.handleMessageSubmit.bind(this)
+		this.submitUsername = this.submitUsername.bind(this)
 	}
 
 	componentDidMount () {
 		socket.on('send:message', this._messageRecieve)
 		socket.on('user:join', this._userJoined)
 		socket.on('user:left', this._userLeft)
+	}
+
+	submitUsername (name) {
+		this.setState({
+			username: name,
+			signedIn: true
+		})
+		socket.emit('user:join', name)
 	}
 
 	_messageRecieve (message) {
@@ -36,8 +47,8 @@ class App extends React.Component {
 		this.setState({messages})
 	}
 
-	_userJoined (data) {
-		console.log('user joined!')
+	_userJoined (name) {
+		console.log(name + ' joined!')
 	}
 
 	_userLeft (data) {
@@ -61,23 +72,28 @@ class App extends React.Component {
 	}
 
 	render () {
-		return (
-			<div>
-				<UsersList
-					users={this.state.users}
+		if (this.state.signedIn) {
+			return (
+				<div>
+					<UsersList
+						users={this.state.users}
+					/>
+					<MessageList
+						messages={this.state.messages}
+					/>
+					<MessageForm
+						onMessageSubmit={this.handleMessageSubmit}
+						user={this.state.username}
+					/>
+				</div>
+			)
+		} else {
+			return (
+				<PickUsername
+					submitUsername={this.submitUsername}
 				/>
-				<MessageList
-					messages={this.state.messages}
-				/>
-				<MessageForm
-					onMessageSubmit={this.handleMessageSubmit}
-					user={this.state.user}
-				/>
-				<ChangeNameForm
-					onChangeName={this.handleChangeName}
-				/>
-			</div>
-		)
+			)
+		}
 	}
 
 }
