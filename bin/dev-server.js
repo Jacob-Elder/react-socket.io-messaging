@@ -2,6 +2,20 @@ const project = require('../config/project.config')
 const server = require('../server/main')
 const debug = require('debug')('app:bin:dev-server')
 
-var app = server.listen(project.server_port)
+var http = require('http').Server(server);
+var io = require('socket.io')(http);
+
+io.on('connection', function(socket){
+	//alert client a user has joined
+	console.log('user joined');
+	socket.emit('user:join')
+
+	socket.on('send:message', function(message){
+		console.log('message sent!')
+		io.emit('send:message', message)
+	})
+
+});
+
 debug(`Server is now running at http://localhost:${project.server_port}.`)
-var io = require('socket.io').listen(app);
+http.listen(project.server_port)
