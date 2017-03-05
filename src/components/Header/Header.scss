@@ -1,4 +1,13 @@
-.route--active {
-  font-weight: bold;
-  text-decoration: underline;
+.header {
+	width: 100%;
+	background-color: #a6a6a6;
+	height: 80px;
+	position: fixed;
+	top: 0;
+	z-index: 1;
+}
+
+.title {
+	color: white;
+	font-size: 2.5em;
 }

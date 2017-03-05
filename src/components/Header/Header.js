@@ -3,7 +3,9 @@ import { IndexLink, Link } from 'react-router'
 import './Header.scss'
 
 export const Header = () => (
-    <h1>React Chat App</h1>
+	<div className='header'>
+    	<h1 className='title'>React Chat App</h1>
+    </div>
 )
 
 export default Header

@@ -1,3 +1,9 @@
-.users ul li {
-	list-style: none;
+.users {
+	float: left;
+	height: 100%;
+	background-color: blue;
+	padding: 80px 1% 0;
+	color: white;
+	position: fixed;
+	width: 20%;
 }

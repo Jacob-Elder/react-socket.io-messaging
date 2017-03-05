@@ -29,11 +29,12 @@ class MessageForm extends React.Component {
 	render () {
 		return (
 			<div className='message_form'>
-				<h3>Write New Message</h3>
 				<form onSubmit={this.handleSubmit}>
 					<input
+						className='message-input'
 						onChange={this.updateInput}
 						value={this.state.text}
+						placeholder='Write a message'
 					/>
 				</form>
 			</div>

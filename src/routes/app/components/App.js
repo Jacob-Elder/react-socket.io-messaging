@@ -47,26 +47,23 @@ class App extends React.Component {
 		this.setState({messages})
 	}
 
-	_userJoined (name) {
+	_userJoined (name, users) {
 		console.log(name + ' joined!')
+		this.setState({users: users})
 	}
 
 	_userLeft (data) {
-		var {users, messages} = this.state
-		var {name} = data
-		var index = users.indexOf(name)
-		users.splice(index, 1)
-		messages.push({
-			user: 'Bot',
-			text: name + ' Left!'
+		console.log('user left')
+		socket.emit('send:message', {
+			user: 'BOT',
+			text: data.name + ' left'
 		})
-		this.setState({users, messages})
+		this.setState({
+			users: data.users
+		})
 	}
 
 	handleMessageSubmit (message) {
-		var {messages} = this.state
-		messages.push(message)
-		this.setState({messages})
 		socket.emit('send:message', message)
 		console.log('message sent' + message)
 	}
@@ -74,7 +71,7 @@ class App extends React.Component {
 	render () {
 		if (this.state.signedIn) {
 			return (
-				<div>
+				<div className='app-div'>
 					<UsersList
 						users={this.state.users}
 					/>

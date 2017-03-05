@@ -24,7 +24,7 @@ class PickUsername extends React.Component {
 
 	render () {
 		return (
-			<form onSubmit={this.submitUsername}>
+			<form className='username-form' onSubmit={this.submitUsername}>
 				<h2>Choose a Nickname!</h2>
 				<input
 					type='text'

@@ -2,19 +2,30 @@ const project = require('../config/project.config')
 const server = require('../server/main')
 const debug = require('debug')('app:bin:dev-server')
 
-var http = require('http').Server(server);
-var io = require('socket.io')(http);
-
+var http = require('http').Server(server)
+var io = require('socket.io')(http)
+var users = []
 io.on('connection', function(socket){
 	//alert client a user has joined
+	var username;
+	
 	socket.on('user:join', function(name){
 		console.log(name + ' joined')
-		io.emit('user:join', name)
+		username = name
+		users.push(name)
+		io.emit('user:join', name, users)
 	})
 
 	socket.on('send:message', function(message){
 		console.log('message sent!')
 		io.emit('send:message', message)
+	})
+
+	socket.on('disconnect', function(){
+		console.log(username + ' left')
+		var index = users.indexOf(username)
+		users.splice(index, 1)
+		io.emit('user:left', {name: username, users: users})
 	})
 
 });
