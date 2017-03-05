@@ -6,6 +6,7 @@ import MessageForm from './MessageForm/MessageForm.js'
 import PickUsername from './PickUsername/PickUsername.js'
 import io from 'socket.io-client'
 const socket = io.connect('10.0.1.3:3000')
+var messageList;
 
 class App extends React.Component {
 
@@ -48,8 +49,12 @@ class App extends React.Component {
 	}
 
 	_userJoined (name, users) {
-		console.log(name + ' joined!')
 		this.setState({users: users})
+		console.log(name + ' joined')
+		this.state.messages.push({
+			user: 'BOT',
+			text: name + ' joined'
+		})
 	}
 
 	_userLeft (data) {
@@ -66,6 +71,8 @@ class App extends React.Component {
 	handleMessageSubmit (message) {
 		socket.emit('send:message', message)
 		console.log('message sent' + message)
+		messageList = document.getElementsByClassName('message-list')
+		messageList.scrollTop = messageList.scrollHeight;
 	}
 
 	render () {
@@ -76,6 +83,7 @@ class App extends React.Component {
 						users={this.state.users}
 					/>
 					<MessageList
+						className='message-list'
 						messages={this.state.messages}
 					/>
 					<MessageForm

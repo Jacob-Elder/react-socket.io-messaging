@@ -1,9 +1,18 @@
 .users {
 	float: left;
 	height: 100%;
-	background-color: blue;
+	background-color: #009900;
 	padding: 80px 1% 0;
 	color: white;
 	position: fixed;
 	width: 20%;
+
+	h3 {
+		font-size: 1.8em;
+		text-decoration: underline;
+	}
+
+	li {
+		font-size: 1.5em;
+	}
 }

@@ -25,7 +25,9 @@ io.on('connection', function(socket){
 		console.log(username + ' left')
 		var index = users.indexOf(username)
 		users.splice(index, 1)
-		io.emit('user:left', {name: username, users: users})
+		if (username !== undefined) {
+			io.emit('user:left', {name: username, users: users})
+		}
 	})
 
 });

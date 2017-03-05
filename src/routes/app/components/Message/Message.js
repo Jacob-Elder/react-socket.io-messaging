@@ -6,7 +6,8 @@ class Message extends React.Component{
 	render () {
 		return (
 			<div className='message'>
-				<strong>{this.props.user} : </strong>
+				<strong className='poster'>  {this.props.user}  </strong>
+				<br />
 				<span>{this.props.text}</span>
 			</div>
 		)
