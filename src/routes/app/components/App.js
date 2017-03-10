@@ -5,8 +5,9 @@ import MessageList from './MessageList/MessageList.js'
 import MessageForm from './MessageForm/MessageForm.js'
 import PickUsername from './PickUsername/PickUsername.js'
 import io from 'socket.io-client'
-const socket = io.connect('10.0.1.3:3000')
+const socket = io.connect('10.0.1.15:3000')
 var messageList;
+var newUser;
 
 class App extends React.Component {
 
@@ -49,22 +50,22 @@ class App extends React.Component {
 	}
 
 	_userJoined (name, users) {
-		this.setState({users: users})
 		console.log(name + ' joined')
-		this.state.messages.push({
-			user: 'BOT',
-			text: name + ' joined'
+		var {messages} = this.state
+		messages.push({ user: 'BOT', text: name + ' joined'})
+		this.setState({
+			users: users,
+			messages
 		})
 	}
 
 	_userLeft (data) {
 		console.log('user left')
-		socket.emit('send:message', {
-			user: 'BOT',
-			text: data.name + ' left'
-		})
+		var {messages} = this.state
+		messages.push({ user: 'BOT', text: data.name + ' left'})
 		this.setState({
-			users: data.users
+			users: data.users,
+			messages
 		})
 	}
 
